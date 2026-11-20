@@ -17,26 +17,30 @@ FONTS = "".join(
 CSS = FONTS + """
 *{margin:0;box-sizing:border-box}
 body{width:var(--w);height:var(--h);background:#0B0F14;color:#F3F1EA;font-family:C;direction:ltr;overflow:hidden;position:relative}
-.glow{position:absolute;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.22),rgba(212,175,55,0) 65%);left:-380px;top:-380px}
+.glow{position:absolute;width:1000px;height:1000px;border-radius:50%;background:radial-gradient(circle,rgba(53,198,179,.20),rgba(74,123,224,0) 65%);left:-380px;top:-380px}
 .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:90px 90px}
 .chart{position:absolute;left:0;width:100%;bottom:0;height:var(--ch);opacity:.4}
 .wrap{direction:rtl;position:absolute;inset:100px 96px 150px;display:flex;flex-direction:column}
 .brand{display:flex;align-items:center;gap:16px;font-weight:800;font-size:38px;direction:ltr;align-self:flex-end}
-.dot{width:22px;height:22px;border-radius:6px;background:#D4AF37;transform:rotate(45deg)}
-.brand span{color:#D4AF37}
-.kicker{margin-top:auto;display:inline-block;align-self:flex-start;font-weight:600;font-size:30px;color:#0B0F14;background:#D4AF37;padding:6px 26px;border-radius:40px}
+.dot{width:96px;height:96px;border-radius:24px;background:url(LOGO) center/cover;box-shadow:0 0 0 2px rgba(53,198,179,.5)}
+.brand span{color:#35C6B3}
+.kicker{margin-top:auto;display:inline-block;align-self:flex-start;font-weight:600;font-size:30px;color:#fff;background:linear-gradient(90deg,#35C6B3,#4A7BE0);padding:6px 26px;border-radius:40px}
 .title{font-weight:800;font-size:var(--ts);line-height:1.25;margin-top:30px}
-.title b{color:#D4AF37;font-weight:800}
-.line{width:130px;height:5px;background:#D4AF37;border-radius:4px;margin:38px 0}
+.title b{background:linear-gradient(90deg,#35C6B3,#5B8BEF);-webkit-background-clip:text;color:transparent;font-weight:800}
+.line{width:130px;height:5px;background:#35C6B3;border-radius:4px;margin:38px 0}
 .body{font-size:var(--bs);line-height:1.75;color:#C9CCD3;white-space:pre-line}
 .foot{margin-top:56px;font-size:26px;color:#8A8F99}
-.cta{margin-top:auto;align-self:flex-start;background:#D4AF37;color:#0B0F14;font-weight:800;font-size:40px;padding:30px 64px;border-radius:80px}
+.cta{margin-top:auto;align-self:flex-start;background:linear-gradient(90deg,#35C6B3,#4A7BE0);color:#fff;font-weight:800;font-size:40px;padding:30px 64px;border-radius:80px}
 .disc{direction:rtl;position:absolute;bottom:40px;left:0;right:0;text-align:center;font-size:22px;color:#6B707A}
 """
 
-CHART = """<svg class=chart viewBox="0 0 1080 300" preserveAspectRatio="none"><defs><linearGradient id=g x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#D4AF37" stop-opacity=".35"/><stop offset=1 stop-color="#D4AF37" stop-opacity="0"/></linearGradient></defs>
+CHART = """<svg class=chart viewBox="0 0 1080 300" preserveAspectRatio="none"><defs><linearGradient id=g x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#35C6B3" stop-opacity=".35"/><stop offset=1 stop-color="#4A7BE0" stop-opacity="0"/></linearGradient></defs>
 <path d="M0,250 L90,230 L170,245 L250,190 L330,205 L420,150 L500,170 L590,120 L670,140 L760,90 L840,110 L930,60 L1080,40 L1080,300 L0,300Z" fill="url(#g)"/>
-<path d="M0,250 L90,230 L170,245 L250,190 L330,205 L420,150 L500,170 L590,120 L670,140 L760,90 L840,110 L930,60 L1080,40" fill="none" stroke="#D4AF37" stroke-width="4"/></svg>"""
+<path d="M0,250 L90,230 L170,245 L250,190 L330,205 L420,150 L500,170 L590,120 L670,140 L760,90 L840,110 L930,60 L1080,40" fill="none" stroke="#35C6B3" stroke-width="4"/></svg>"""
+
+
+LOGO = (pathlib.Path(__file__).resolve().parent / "assets/sisco_logo.jpg").as_uri()
+CSS = CSS.replace("url(LOGO)", f"url({LOGO})")
 
 
 def e(s):
