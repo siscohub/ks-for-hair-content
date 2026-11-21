@@ -5,7 +5,7 @@ JSON: {"post": {"kicker","title","body","footer"}  (optional),
 In "title", wrap accent words in *asterisks* (rendered gold).
 Outputs post.png / story.png.
 """
-import json, sys, pathlib, html
+import json, sys, pathlib, html, os
 from playwright.sync_api import sync_playwright
 
 F = pathlib.Path(__file__).resolve().parent / "node_modules/@fontsource/cairo/files"
@@ -43,6 +43,9 @@ LOGO = (pathlib.Path(__file__).resolve().parent / "assets/sisco_logo.jpg").as_ur
 CSS = CSS.replace("url(LOGO)", f"url({LOGO})")
 
 
+EXTRA = ".body,.cta,.line,.foot{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
+
+
 def e(s):
     return html.escape(s or "")
 
@@ -53,7 +56,7 @@ def title(t):
 
 
 def page(w, h, ts, bs, ch, inner):
-    return (f"<html><head><meta charset=utf-8><style>{CSS}</style></head>"
+    return (f"<html><head><meta charset=utf-8><style>{CSS}{EXTRA}</style></head>"
             f"<body style='--w:{w}px;--h:{h}px;--ts:{ts}px;--bs:{bs}px;--ch:{ch}px'>"
             f"<div class=grid></div><div class=glow></div>{CHART}"
             f"<div class=wrap><div class=brand><div class=dot></div>Sisco<span>Hub</span></div>{inner}</div>"

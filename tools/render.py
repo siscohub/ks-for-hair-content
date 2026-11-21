@@ -2,7 +2,7 @@
 Usage: python3 render.py day.json outdir
 JSON: {"post": {"kicker","title","body","footer"}, "story": {"kicker","title","body","cta"}}
 """
-import json, sys, pathlib, html
+import json, sys, pathlib, html, os
 from playwright.sync_api import sync_playwright
 
 F = pathlib.Path(__file__).parent / "node_modules/@fontsource"
@@ -13,6 +13,9 @@ FONTS = f"""
 @font-face{{font-family:MS;src:url(file://{F}/montserrat/files/montserrat-latin-400-normal.woff2)}}
 @font-face{{font-family:MS;font-weight:600;src:url(file://{F}/montserrat/files/montserrat-latin-600-normal.woff2)}}
 """
+
+EXTRA = ".body,.cta,.line,.foot{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
+
 
 def e(s): return html.escape(s or "").replace("\n", "<br>")
 
@@ -35,7 +38,7 @@ body{width:var(--w);height:var(--h);background:#F4EDE4;color:#2B211C;font-family
 """
 
 def page(w, h, ts, bs, inner):
-    return f"<html><head><style>{CSS}</style></head><body style='--w:{w}px;--h:{h}px;--ts:{ts}px;--bs:{bs}px'><div class=arc></div><div class=arc2></div><div class=frame></div><div class=wrap><div class=brand>KS <i>for</i> Hair</div>{inner}</div></body></html>"
+    return f"<html><head><style>{CSS}{EXTRA}</style></head><body style='--w:{w}px;--h:{h}px;--ts:{ts}px;--bs:{bs}px'><div class=arc></div><div class=arc2></div><div class=frame></div><div class=wrap><div class=brand>KS <i>for</i> Hair</div>{inner}</div></body></html>"
 
 def title(t):  # *word* -> italic accent
     parts = e(t).split("*")
