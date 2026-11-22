@@ -1,116 +1,117 @@
 {
- "approved_by_owner": "2026-11-22",
- "note": "Owner approved these 10 formulas. Colour:developer ratio is brand-specific -> always write 'Mischverhältnis Farbe:Oxidant laut Hersteller'. Every formula post/caption must include the safety line (German): 'Ergebnis hängt von Ausgangsfarbe & Haarzustand ab. Allergietest 48 h vorher – am besten vom Profi machen lassen.'",
- "formulas": [
-  {
-   "name": "Karamellbraun",
-   "mix": "6.3 + 7.3",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "6–7",
-   "swatch": "#8B5A2B",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Haselnussbraun",
-   "mix": "6.0 + 6.3",
-   "ratio": "2:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "5–6",
-   "swatch": "#7A5230",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Schokobraun",
-   "mix": "5.0 + 4.5",
-   "ratio": "2:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "4–6",
-   "swatch": "#4E3024",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Kühles Aschblond",
-   "mix": "7.1 + 8.0",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "7 (mit Gelbstich)",
-   "swatch": "#A89B85",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Honigblond",
-   "mix": "8.3 + 9.0",
-   "ratio": "1:1",
-   "oxidant": "9 %",
-   "time": "35 Min",
-   "base": "7–8",
-   "swatch": "#C9A06A",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Kupferrot",
-   "mix": "7.4 + 7.44",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "6–7",
-   "swatch": "#B5562A",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Mahagoni",
-   "mix": "5.5 + 5.0",
-   "ratio": "2:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "4–6",
-   "swatch": "#6B2E2A",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Natur-Dunkelblond (Grauabdeckung)",
-   "mix": "6.0 + 7.0",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "40 Min",
-   "base": "6–7 mit Grauanteil",
-   "swatch": "#6E5843",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Perlblond",
-   "mix": "9.1 + 9.2",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "30 Min",
-   "base": "9 (hell)",
-   "swatch": "#D8CDBE",
-   "photo": null,
-   "posted": false
-  },
-  {
-   "name": "Kirschbraun",
-   "mix": "5.6 + 5.0",
-   "ratio": "1:1",
-   "oxidant": "6 %",
-   "time": "35 Min",
-   "base": "4–5",
-   "swatch": "#6A2530",
-   "photo": null,
-   "posted": false
-  }
- ]
+  "approved_by_owner": "2026-11-22",
+  "note": "Owner approved these 10 formulas. Colour:developer ratio is brand-specific -> always write 'Mischverhältnis Farbe:Oxidant laut Hersteller'. Every formula post/caption must include the safety line (German): 'Ergebnis hängt von Ausgangsfarbe & Haarzustand ab. Allergietest 48 h vorher – am besten vom Profi machen lassen.'",
+  "formulas": [
+    {
+      "name": "Karamellbraun",
+      "mix": "6.3 + 7.3",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "6–7",
+      "swatch": "#8B5A2B",
+      "photo": null,
+      "posted": true,
+      "posted_on": "2026-11-22"
+    },
+    {
+      "name": "Haselnussbraun",
+      "mix": "6.0 + 6.3",
+      "ratio": "2:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "5–6",
+      "swatch": "#7A5230",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Schokobraun",
+      "mix": "5.0 + 4.5",
+      "ratio": "2:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "4–6",
+      "swatch": "#4E3024",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Kühles Aschblond",
+      "mix": "7.1 + 8.0",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "7 (mit Gelbstich)",
+      "swatch": "#A89B85",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Honigblond",
+      "mix": "8.3 + 9.0",
+      "ratio": "1:1",
+      "oxidant": "9 %",
+      "time": "35 Min",
+      "base": "7–8",
+      "swatch": "#C9A06A",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Kupferrot",
+      "mix": "7.4 + 7.44",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "6–7",
+      "swatch": "#B5562A",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Mahagoni",
+      "mix": "5.5 + 5.0",
+      "ratio": "2:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "4–6",
+      "swatch": "#6B2E2A",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Natur-Dunkelblond (Grauabdeckung)",
+      "mix": "6.0 + 7.0",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "40 Min",
+      "base": "6–7 mit Grauanteil",
+      "swatch": "#6E5843",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Perlblond",
+      "mix": "9.1 + 9.2",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "30 Min",
+      "base": "9 (hell)",
+      "swatch": "#D8CDBE",
+      "photo": null,
+      "posted": false
+    },
+    {
+      "name": "Kirschbraun",
+      "mix": "5.6 + 5.0",
+      "ratio": "1:1",
+      "oxidant": "6 %",
+      "time": "35 Min",
+      "base": "4–5",
+      "swatch": "#6A2530",
+      "photo": null,
+      "posted": false
+    }
+  ]
 }
