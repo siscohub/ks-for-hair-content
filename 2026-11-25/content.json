@@ -1,0 +1,34 @@
+{
+ "post": {
+  "kicker": "Queue",
+  "title": "Poster aus der Queue",
+  "body": "Platzhalter – wird nicht veröffentlicht.",
+  "footer": "we love hair"
+ },
+ "story": {
+  "kicker": "This or That",
+  "title": "Locken oder\nglatt?",
+  "script": "dein Look",
+  "body": "Naturlocken lieben –\noder lieber glatt geföhnt?\n\nVerrat uns deinen Favoriten per DM!",
+  "cta": "Termin per DM"
+ },
+ "reel": {
+  "kicker": "Farbmischung",
+  "title": "Haselnussbraun",
+  "script": "die Formel",
+  "swatch": "#7A5230",
+  "swatch_label": "Haselnuss",
+  "rows": [
+   ["Mischung", "6.0 + 6.3 (2:1)"],
+   ["Oxidant", "6 %"],
+   ["Einwirkzeit", "35 Min"],
+   ["Ausgangsbasis", "5–6"]
+  ],
+  "note": "Mischverhältnis Farbe:Oxidant laut Hersteller.\nAllergietest 48 h vorher – am besten vom Profi.",
+  "cta": "Termin per DM"
+ },
+ "caption": "queue",
+ "reel_caption": "Haselnussbraun – natürlich, warm und gemütlich wie ein Wintertag. 🌰✨\n\nUnsere Formel:\n• Mischung: 6.0 + 6.3 (2:1)\n• Oxidant: 6 %\n• Einwirkzeit: 35 Min\n• Ausgangsbasis: 5–6\n\nMischverhältnis Farbe:Oxidant laut Hersteller.\nErgebnis hängt von Ausgangsfarbe & Haarzustand ab. Allergietest 48 h vorher – am besten vom Profi machen lassen.\n\nTeam Haselnuss oder Team Karamell? Schreib's in die Kommentare! 👇\n\nTermin per DM oder unter 📞 0316 351186\n🌐 www.ksforhair.at\n📍 Zinzendorfgasse, 8010 Graz\n\n#ksforhair #friseurgraz #graz #haarfarbe #farbformel #coloration #haselnussbraun #brunette",
+ "tiktok_reel_caption": "Haselnussbraun – unsere Formel 🌰 6.0 + 6.3 (2:1), 6 %, 35 Min, Basis 5–6.\nMischverhältnis Farbe:Oxidant laut Hersteller. Ergebnis hängt von Ausgangsfarbe & Haarzustand ab. Allergietest 48 h vorher – am besten vom Profi machen lassen.\n📞 0316 351186 · 📍 Graz\n#ksforhair #friseurgraz #graz #hairtok #haarfarbe",
+ "tiktok_post_caption": "Deine Locken. Deine Kraft. Deine Schönheit. 🌀 Feuchtigkeit, sanfte sulfatfreie Reinigung, Masken & Geduld beim Entwirren – plus Satin-Kissenbezug über Nacht. Dein Lockentrick? 👇\n📞 0316 351186 · 📍 Graz\n#ksforhair #friseurgraz #graz #hairtok #locken #curlyhair"
+}
