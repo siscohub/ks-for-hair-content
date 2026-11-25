@@ -2,7 +2,10 @@
 (synthetic data, no real prices) with annotations for one trading concept.
 
 Usage:  [HIDE_BODY=1] python3 siscohub/tools/render_chart.py spec.json outdir
-spec:   {"story": {"kicker","title","body","cta","chart": "<concept>"}}
+spec:   {"story": {"kicker","title","body","cta","chart": "<concept>", "legend": [optional list]}}
+Every concept numbers its key candles (gold 1/2/3 on the chart) and a legend under the chart
+names each numbered candle and what it does. "legend" in the spec overrides the default text
+(one short line per number, ~34 chars max).
 concepts: fvg, fvg_bear, choch, bos, order_block, liquidity_sweep, liquidity_sweep_high,
           support_resistance, engulfing, pin_bar
 HIDE_BODY=1 renders candles only (annotations, body and CTA hidden) for the reveal frame A.
@@ -112,10 +115,48 @@ _pin = [C(70, 66), C(66, 62), C(62, 64), C(64, 58), C(58, 54), C(54, 56), C(56, 
 CONCEPTS["pin_bar"] = dict(candles=_pin, ann=[
     ("zone", 0, 19.6, 36, 40, UP, "منطقة دعم"), ("arrow", 8, 36, "بن بار – ذيل طويل")])
 
+# ---- numbered key candles + legend (owner, 25 Nov 2026: name each candle and what it does) ----
+CONCEPTS["choch"]["ann"] += [("mark_dn", 9, 38, "1"), ("mark", 14, 72, "2")]
+CONCEPTS["bos"]["ann"] += [("mark", 6, 54, "1"), ("mark", 11, 64, "2")]
+CONCEPTS["order_block"]["ann"] += [("mark", 5, 47, "1"), ("mark", 6, 54, "2"), ("mark", 13, 54, "3")]
+CONCEPTS["liquidity_sweep"]["ann"] += [("mark", 6, 53, "1"), ("mark", 11, 48, "2"), ("mark", 12, 57, "3")]
+CONCEPTS["liquidity_sweep_high"]["ann"] += [("mark", 6, 59.7, "1"), ("mark_dn", 11, 47, "2"), ("mark_dn", 12, 41, "3")]
+CONCEPTS["support_resistance"]["ann"] += [("mark_dn", 2, 54, "1"), ("mark", 5, 49, "2")]
+CONCEPTS["engulfing"]["ann"] += [("mark", 8, 55, "1"), ("mark", 9, 59, "2")]
+CONCEPTS["pin_bar"]["ann"] += [("mark", 8, 50, "1"), ("mark", 9, 56, "2")]
+
+LEGEND = {
+    "fvg": ["شمعة قبل الحركة: قمتها بداية الفجوة",
+            "الشمعة القوية: هي اللي بتعمل الفراغ",
+            "الشمعة بعدها: قاعها نهاية الفجوة"],
+    "fvg_bear": ["شمعة قبل الهبوط: قاعها بداية الفجوة",
+                 "الشمعة الهابطة القوية: بتعمل الفراغ",
+                 "الشمعة بعدها: قمتها نهاية الفجوة"],
+    "choch": ["آخر قاع أدنى (LL): الاتجاه لسا هابط",
+              "شمعة الكسر: بتسكّر فوق آخر قمة أدنى"],
+    "bos": ["شمعة الكسر: بتسكّر فوق القمة السابقة",
+            "كسر تاني: الاتجاه الصاعد عم يكمّل"],
+    "order_block": ["آخر شمعة هابطة قبل الصعود = البلوك",
+                    "شمعة الاندفاع: بتبيّن قوة الحركة",
+                    "رجوع السعر لمنطقة البلوك"],
+    "liquidity_sweep": ["قيعان متساوية: تحتها أوامر ستوب",
+                        "شمعة السحب: ذيل تحت وتسكير فوق",
+                        "شمعة الارتداد بعد السحب"],
+    "liquidity_sweep_high": ["قمم متساوية: فوقها أوامر ستوب",
+                             "شمعة السحب: ذيل فوق وتسكير تحت",
+                             "شمعة النزول بعد السحب"],
+    "support_resistance": ["لمسة المقاومة: السعر رجع نزل",
+                           "لمسة الدعم: السعر رجع طلع"],
+    "engulfing": ["شمعة هابطة صغيرة: البيع عم يضعف",
+                  "شمعة صاعدة بتبلع جسم اللي قبلها"],
+    "pin_bar": ["بن بار: ذيل طويل تحت وجسم صغير",
+                "شمعة بعدها: بتسكّر أعلى وبتأكد الرفض"],
+}
+
 
 # ---- SVG ----
-W, H = 888, 720
-PAD_T, PAD_B, PAD_L, PAD_R = 110, 60, 26, 26
+W, H = 888, 640
+PAD_T, PAD_B, PAD_L, PAD_R = 100, 115, 26, 26
 
 
 def svg(concept):
@@ -167,6 +208,10 @@ def svg(concept):
             _, i, p, t = a
             ann_fg.append(f"<circle cx={X(i):.0f} cy={Y(p) - 32:.0f} r=19 fill='{GOLD}' style='stroke:none'/>"
                           f"<text x={X(i):.0f} y={Y(p) - 23:.0f} fill='#0B0F14' style='stroke:none' font-size=26 font-weight=800 text-anchor=middle>{t}</text>")
+        elif kind == "mark_dn":
+            _, i, p, t = a
+            ann_fg.append(f"<circle cx={X(i):.0f} cy={Y(p) + 32:.0f} r=19 fill='{GOLD}' style='stroke:none'/>"
+                          f"<text x={X(i):.0f} y={Y(p) + 41:.0f} fill='#0B0F14' style='stroke:none' font-size=26 font-weight=800 text-anchor=middle>{t}</text>")
         elif kind in ("arrow", "arrow_dn"):
             _, i, p, t = a
             x = X(i)
@@ -200,22 +245,28 @@ CSS_EXTRA = """
 .title{font-size:80px;margin-top:20px;line-height:1.22}
 .panel{margin-top:34px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:28px;overflow:hidden;direction:ltr}
 .panel svg{display:block;font-family:C}
-.body{margin-top:30px;font-size:38px;line-height:1.6}
+.legend{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.legend .row{display:flex;align-items:center;gap:18px;font-size:33px;font-weight:700;color:#E8EAED;line-height:1.3}
+.legend .n{flex:none;width:44px;height:44px;border-radius:50%;background:#F2C14E;color:#0B0F14;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center}
+.body{margin-top:24px;font-size:36px;line-height:1.55}
 .cta{font-size:38px;padding:24px 56px}
 """
-HIDE = ".body,.cta,.ann{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
+HIDE = ".body,.cta,.ann,.legend{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
 
 
 def main(spec_path, out):
     st = json.loads(pathlib.Path(spec_path).read_text(encoding="utf-8"))["story"]
     out = pathlib.Path(out).resolve(); out.mkdir(parents=True, exist_ok=True)
     e = rs.e
+    items = st.get("legend") or LEGEND.get(st["chart"], [])
+    legend = "".join(f"<div class=row><span class=n>{k}</span><span>{e(t)}</span></div>" for k, t in enumerate(items, 1))
     doc = (f"<html><head><meta charset=utf-8><style>{rs.CSS}{CSS_EXTRA}{HIDE}.chart{{display:none}}</style></head>"
            f"<body style='--w:1080px;--h:1920px;--ts:80px;--bs:38px;--ch:0px'>"
            f"<div class=grid></div><div class=glow></div>"
            f"<div class=wrap><div class=brand><div class=dot></div>Sisco<span>Hub</span></div>"
            f"<div class=kicker>{e(st['kicker'])}</div><div class=title>{rs.title(st['title'])}</div>"
            f"<div class=panel>{svg(st['chart'])}</div>"
+           f"<div class=legend>{legend}</div>"
            f"<div class=body>{e(st['body'])}</div><div class=cta>{e(st['cta'])}</div></div>"
            f"<div class=disc>محتوى تعليمي فقط · ليس نصيحة مالية</div></body></html>")
     f = out / "story.html"; f.write_text(doc, encoding="utf-8")
