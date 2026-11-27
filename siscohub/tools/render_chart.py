@@ -7,7 +7,10 @@ Every concept numbers its key candles (gold 1/2/3 on the chart) and a legend und
 names each numbered candle and what it does. "legend" in the spec overrides the default text
 (one short line per number, ~34 chars max).
 concepts: fvg, fvg_bear, choch, bos, order_block, liquidity_sweep, liquidity_sweep_high,
-          support_resistance, engulfing, pin_bar
+          support_resistance, engulfing, pin_bar,
+          candle patterns: hammer, inverted_hammer, doji, morning_star, harami_bull, tweezer_bottom,
+          three_white_soldiers, marubozu_bull, shooting_star, hanging_man, evening_star,
+          engulfing_bear, three_black_crows, tweezer_top
 HIDE_BODY=1 renders candles only (annotations, body and CTA hidden) for the reveal frame A.
 Writes outdir/story.png. Reuses fonts/colours/logo from tools/render_sisco.py (not modified).
 """
@@ -152,6 +155,85 @@ LEGEND = {
     "pin_bar": ["بن بار: ذيل طويل تحت وجسم صغير",
                 "شمعة بعدها: بتسكّر أعلى وبتأكد الرفض"],
 }
+
+
+# ---- CANDLESTICK PATTERNS (owner, 27 Nov 2026: "أشكال الشموع وأسمائهم") ----
+# Each: decline (or rise) into the pattern, pattern candles highlighted + numbered, then reaction.
+_DOWN = [C(75, 71), C(71, 67), C(67, 69), C(69, 63), C(63, 59), C(59, 61), C(61, 55), C(55, 50)]
+_UPAFTER = [C(56, 61), C(61, 59), C(59, 64), C(64, 69), C(69, 67), C(67, 72), C(72, 76)]
+
+
+def _bull(pattern, lo, hi, marks, label, after_from=None):
+    """Bullish reversal at the bottom of a decline. pattern starts at index 8."""
+    cs = _DOWN + pattern
+    start = after_from if after_from is not None else pattern[-1][3]
+    shift = start - _UPAFTER[0][0]
+    cs += [(o + shift, h + shift, l + shift, c + shift) for o, h, l, c in _UPAFTER]
+    cs = cs[:20]
+    n = len(pattern)
+    ann = [("rect", 7.6, 7.4 + n, lo, hi, GOLD, ""), ("arrow", 7 + (n + 1) / 2, lo, label)]
+    ann += [(m[0], 8 + k, m[1], str(k + 1)) for k, m in enumerate(marks)]
+    if n == 1:  # single-candle pattern: number the confirmation candle too
+        ann.append(("mark", 9, cs[9][1], "2"))
+    # zoom in: keep 4 candles before the pattern and ~4 after, so the pattern is big
+    cut = 4
+    cs = cs[cut:8 + n + 4]
+    ann = [(a[0], a[1] - cut, a[2] - cut) + a[3:] if a[0] == "rect" else (a[0], a[1] - cut) + a[2:] for a in ann]
+    return dict(candles=cs, ann=ann)
+
+
+def _bear(d):
+    """Mirror a bullish pattern into the bearish version (top of a rise)."""
+    out = dict(candles=mirror(d["candles"]), ann=[])
+    for a in d["ann"]:
+        if a[0] == "rect":
+            out["ann"].append(("rect", a[1], a[2], 100 - a[4], 100 - a[3], a[5], a[6]))
+        elif a[0] == "arrow":
+            out["ann"].append(("arrow_dn", a[1], 100 - a[2], a[3]))
+        elif a[0] in ("mark", "mark_dn"):
+            out["ann"].append(("mark_dn" if a[0] == "mark" else "mark", a[1], 100 - a[2], a[3]))
+    return out
+
+
+CONCEPTS["hammer"] = _bull([C(50, 52, h=53, l=38)], 36, 55, [("mark", 53)], "هامر")
+CONCEPTS["inverted_hammer"] = _bull([C(50, 52, h=63, l=49)], 47, 65, [("mark", 63)], "هامر مقلوب")
+CONCEPTS["doji"] = _bull([C(50, 50.3, h=56, l=44)], 42, 58, [("mark", 56)], "دوجي")
+CONCEPTS["morning_star"] = _bull([C(55, 46, h=56, l=45), C(45, 46, h=48, l=42), C(46, 54, h=55, l=45)],
+                                 40, 58, [("mark", 56), ("mark", 48), ("mark", 55)], "نجمة الصباح")
+CONCEPTS["harami_bull"] = _bull([C(56, 45, h=57, l=44), C(47, 51, h=52, l=46)], 42, 59,
+                                [("mark", 57), ("mark", 52)], "هارامي شرائي")
+CONCEPTS["tweezer_bottom"] = _bull([C(52, 46, h=53, l=42), C(46, 52, h=53, l=42)], 40, 55,
+                                   [("mark", 53), ("mark", 53)], "قاع الملقط")
+CONCEPTS["three_white_soldiers"] = _bull([C(49, 54, h=55, l=48), C(53, 59, h=60, l=52), C(58, 64, h=65, l=57)],
+                                         46, 67, [("mark", 55), ("mark", 60), ("mark", 65)], "الجنود الثلاثة")
+CONCEPTS["marubozu_bull"] = _bull([C(49, 61, h=61, l=49)], 47, 63, [("mark", 61)], "ماروبوزو صاعدة")
+CONCEPTS["shooting_star"] = _bear(_bull([C(50, 48, h=51, l=37)], 35, 53, [("mark", 51)], "نجمة ساقطة"))
+CONCEPTS["hanging_man"] = _bear(_bull([C(50, 52, h=63, l=49)], 47, 65, [("mark", 63)], "الرجل المشنوق"))
+CONCEPTS["evening_star"] = _bear(_bull([C(55, 46, h=56, l=45), C(45, 46, h=48, l=42), C(46, 54, h=55, l=45)],
+                                       40, 58, [("mark", 56), ("mark", 48), ("mark", 55)], "نجمة المساء"))
+CONCEPTS["engulfing_bear"] = _bear(_bull([C(48, 46, h=49, l=45), C(45, 53, h=54, l=44)], 42, 56,
+                                         [("mark", 49), ("mark", 54)], "ابتلاع بيعي"))
+CONCEPTS["three_black_crows"] = _bear(_bull([C(49, 54, h=55, l=48), C(53, 59, h=60, l=52), C(58, 64, h=65, l=57)],
+                                            46, 67, [("mark", 55), ("mark", 60), ("mark", 65)], "الغربان الثلاثة"))
+CONCEPTS["tweezer_top"] = _bear(_bull([C(52, 46, h=53, l=42), C(46, 52, h=53, l=42)], 40, 55,
+                                      [("mark", 53), ("mark", 53)], "قمة الملقط"))
+
+LEGEND.update({
+    "hammer": ["هامر: ذيل طويل تحت وجسم صغير فوق", "شمعة التأكيد: بتسكّر أعلى من الهامر"],
+    "inverted_hammer": ["هامر مقلوب: ذيل طويل فوق وجسم صغير", "شمعة التأكيد: بتسكّر أعلى"],
+    "doji": ["دوجي: فتح وسكّر تقريباً على نفس السعر", "الشمعة بعدها بتحدد مين ربح"],
+    "morning_star": ["شمعة هابطة كبيرة", "شمعة صغيرة: البيع عم يتعب", "شمعة صاعدة قوية: ممكن انعكاس لفوق"],
+    "harami_bull": ["شمعة هابطة كبيرة", "شمعة صغيرة جوّا جسم اللي قبلها: الزخم ضعف"],
+    "tweezer_bottom": ["قاع أول", "قاع تاني على نفس المستوى: رفض للنزول"],
+    "three_white_soldiers": ["شمعة صاعدة أولى", "التانية بتسكّر أعلى", "التالتة كمان: زخم شرائي واضح"],
+    "marubozu_bull": ["ماروبوزو: جسم كامل بلا ذيول تقريباً", "الصعود بيكمّل بعدها"],
+    "shooting_star": ["نجمة ساقطة: ذيل طويل فوق بعد صعود", "شمعة التأكيد: بتسكّر أدنى"],
+    "hanging_man": ["الرجل المشنوق: ذيل طويل تحت بعد صعود", "شمعة التأكيد: بتسكّر أدنى"],
+    "evening_star": ["شمعة صاعدة كبيرة", "شمعة صغيرة: الشراء عم يتعب", "شمعة هابطة قوية: ممكن انعكاس لتحت"],
+    "engulfing_bear": ["شمعة صاعدة صغيرة: الشراء عم يضعف", "شمعة هابطة بتبلع جسم اللي قبلها"],
+    "three_black_crows": ["شمعة هابطة أولى", "التانية بتسكّر أدنى", "التالتة كمان: زخم بيعي واضح"],
+    "tweezer_top": ["قمة أولى", "قمة تانية على نفس المستوى: رفض للصعود"],
+})
 
 
 # ---- SVG ----
