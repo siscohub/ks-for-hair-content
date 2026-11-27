@@ -334,6 +334,14 @@ CSS_EXTRA = """
 .cta{font-size:38px;padding:24px 56px}
 """
 HIDE = ".body,.cta,.ann,.legend{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
+# REVEAL_LINES=k: annotations shown, only the first k body lines visible, CTA hidden (step frames for reels)
+if os.environ.get("REVEAL_LINES"):
+    _k = int(os.environ["REVEAL_LINES"])
+    HIDE += f".ln:nth-child(n+{_k+1}){{visibility:hidden}}.cta{{visibility:hidden}}"
+
+
+def _lines(t):
+    return "".join("<span class=ln style='display:block'>" + (rs.e(l) or "&nbsp;") + "</span>" for l in (t or "").split("\n"))
 
 
 def main(spec_path, out):
@@ -349,7 +357,7 @@ def main(spec_path, out):
            f"<div class=kicker>{e(st['kicker'])}</div><div class=title>{rs.title(st['title'])}</div>"
            f"<div class=panel>{svg(st['chart'])}</div>"
            f"<div class=legend>{legend}</div>"
-           f"<div class=body>{e(st['body'])}</div><div class=cta>{e(st['cta'])}</div></div>"
+           f"<div class=body>{_lines(st['body'])}</div><div class=cta>{e(st['cta'])}</div></div>"
            f"<div class=disc>محتوى تعليمي فقط · ليس نصيحة مالية</div></body></html>")
     f = out / "story.html"; f.write_text(doc, encoding="utf-8")
     with sync_playwright() as pw:

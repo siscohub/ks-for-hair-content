@@ -44,10 +44,18 @@ CSS = CSS.replace("url(LOGO)", f"url({LOGO})")
 
 
 EXTRA = ".body,.cta,.line,.foot{visibility:hidden}" if os.environ.get("HIDE_BODY") else ""
+# REVEAL_LINES=k: show only the first k body lines (layout unchanged) and hide the CTA (step frames for reels)
+if os.environ.get("REVEAL_LINES"):
+    _k = int(os.environ["REVEAL_LINES"])
+    EXTRA += f".ln:nth-child(n+{_k+1}){{visibility:hidden}}.cta,.foot{{visibility:hidden}}"
 
 
 def e(s):
     return html.escape(s or "")
+
+
+def lines(t):
+    return "".join(f"<span class=ln style='display:block'>{e(l) or '&nbsp;'}</span>" for l in (t or "").split("\n"))
 
 
 def title(t):
@@ -71,12 +79,12 @@ def main(spec_path, out):
         p = s["post"]
         jobs.append(("post", 1080, 1350, page(1080, 1350, 84, 38, 150,
             f"<div class=kicker>{e(p['kicker'])}</div><div class=title>{title(p['title'])}</div>"
-            f"<div class=line></div><div class=body>{e(p['body'])}</div><div class=foot>{e(p.get('footer',''))}</div>")))
+            f"<div class=line></div><div class=body>{lines(p['body'])}</div><div class=foot>{e(p.get('footer',''))}</div>")))
     if s.get("story"):
         st = s["story"]
         jobs.append(("story", 1080, 1920, page(1080, 1920, 104, 42, 380,
             f"<div class=kicker>{e(st['kicker'])}</div><div class=title>{title(st['title'])}</div>"
-            f"<div class=line></div><div class=body>{e(st['body'])}</div><div class=cta>{e(st['cta'])}</div>"
+            f"<div class=line></div><div class=body>{lines(st['body'])}</div><div class=cta>{e(st['cta'])}</div>"
             f"<div style='height:120px'></div>")))
     with sync_playwright() as pw:
         b = pw.chromium.launch(executable_path="/usr/bin/google-chrome", args=["--allow-file-access-from-files"])
