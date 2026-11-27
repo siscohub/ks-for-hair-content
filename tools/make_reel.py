@@ -33,7 +33,7 @@ else:
     hold, xd = 1.0, 0.25
     offsets = [hold * (i + 1) for i in range(len(imgs) - 1)]          # 1.0, 2.0, 3.0 ...
     durs = [offsets[0] + xd] + [hold + xd] * (len(imgs) - 2) + [TOTAL - offsets[-1] + 0.1]
-    zooms = ["1"] * (len(imgs) - 1) + ["1.0+0.0003*on"]
+    zooms = ["1"] * len(imgs)                     # no zoom: the frame stays still (owner 27 Nov 2026)
 
 cmd = ["ffmpeg", "-y", "-loglevel", "error"]
 fc = []
